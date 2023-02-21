@@ -35,4 +35,4 @@ def find_password(cache_list):
                 if word in line:
                     password = line.split(' ')[1]
                     passwords = password.strip()       
-
+    return passwords
