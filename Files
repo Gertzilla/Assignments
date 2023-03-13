@@ -1,12 +1,15 @@
 __winc_id__ = "ae539110d03e49ea8738fd413ac44ba8"
 __human_name__ = "files"
+
 import os
 import shutil
 from zipfile import ZipFile
 from pathlib import Path
+from os import chdir
+
+new_dir_path = os.path.join(os.getcwd(), "files/cache")
 
 def clean_cache():
-    new_dir_path = "C:/Users/Gertz/OneDrive/Documenten/Winc/files/cache"
     if not os.path.isdir(new_dir_path):
         os.mkdir(new_dir_path)
     else:
@@ -19,11 +22,11 @@ def cache_zip(zipfile, path):
     return
 
 def cached_files():
-    d = Path("C:/Users/Gertz/OneDrive/Documenten/Winc/files/cache")
+    d = os.path.abspath(new_dir_path)
     cache_list = []
     for p in os.listdir(d):
         full_path = os.path.join(d, p) 
-        cache_list.append(os.path.join(d, p))       
+        cache_list.append(full_path)       
     return cache_list
 
 def find_password(cache_list):
@@ -34,5 +37,14 @@ def find_password(cache_list):
             for line in text:
                 if word in line:
                     password = line.split(' ')[1]
-                    passwords = password.strip()       
+                    passwords = password.strip()
+                    print(passwords)       
     return passwords
+
+if __name__ == "__main__":
+    clean_cache()
+    cache_zip("C:/Users/Gertz/OneDrive/Documenten/Winc/files/data.zip", "C:/Users/Gertz/OneDrive/Documenten/Winc/files/cache")
+    cached_files()
+    find_password(cached_files())
+
+
